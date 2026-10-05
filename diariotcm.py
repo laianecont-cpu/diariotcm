@@ -1,8 +1,3 @@
-# 1. Garantir que as dependências do Playwright estão instaladas no ambiente do Colab
-!pip install -q playwright pandas openpyxl pypdf requests
-!playwright install chromium
-!playwright install-deps chromium
-
 import os
 import asyncio
 import pandas as pd
