@@ -93,4 +93,5 @@ else:
             print("\nExecução finalizada.")
 
     # Executa a tarefa assíncrona de forma segura dentro do ambiente Jupyter
-    await executar_automacao()
+    if __name__ == "__main__":
+    executar_automacao()
