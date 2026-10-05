@@ -1,0 +1,39 @@
+name: Execucao Diaria do Robo TCM
+
+on:
+  schedule:
+    # Corre de segunda a sexta-feira às 08:00 UTC (05:00 no horário de Brasília)
+    - cron: '0 8 * * 1-5'
+  workflow_dispatch: # Permite executar manualmente no GitHub
+
+jobs:
+  executar-robo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar codigo do repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar ambiente Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependencias do Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Instalar navegadores do Playwright
+        run: |
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Executar o Robo TCM
+        run: python diariotcm.py
+
+      - name: Salvar alteracoes no repositorio
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Execução diária do robô TCM"
+          branch: main
